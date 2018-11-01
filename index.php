@@ -10,7 +10,7 @@
 <link rel="stylesheet" href="css/index.css"/>
 </head>
 <body>
-	<input type="number" id="test" value="" hidden="true">
+	<input type="number" id="test" value="" hidden>
 	<div id="map"></div>
 	<div class="custom-select" style="width:200px;">
   <select id="sel" onclick="setMap()">

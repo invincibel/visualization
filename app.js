@@ -1,7 +1,6 @@
 var layers;
 var array = ["crime","sex","literacy"];
 			function highlightFeature(e){
-				console.log(e);
 				var layer = e.target;
 				layer.setStyle(
 					{
@@ -25,7 +24,7 @@ var array = ["crime","sex","literacy"];
     				format: 'json',
 				}, function (result) {
 						var t = result.address.state;	
-						var html = '<b>'+t+'</b><div><p id="crime">Crime rate: 53</p></div>'
+						var html = '<b>'+t+'</b><div><p id="crime"></p><p id="sex"></p><p id="lit"></p></div>'
 						layer.bindPopup(
 						html,
 							{minWidth : 256}
@@ -37,7 +36,7 @@ var array = ["crime","sex","literacy"];
 			function resetHighlight(e){
 				layers.resetStyle(e.target);
 			}
-			function zoomToFeature(e){
+	function zoomToFeature(e){
 				var layer = e.target;
 				layer.setStyle(
 					{
@@ -47,38 +46,82 @@ var array = ["crime","sex","literacy"];
 						fillOpacity : 0.2
 					}
 				);
-				
-	}				
-		function getStateCol(name,val)
-		{
-			var sel = array[val];
-			if (window.XMLHttpRequest) {
-            	xmlhttp = new XMLHttpRequest();
+				var la  = e.latlng.lat;
+				var lo  = e.latlng.lng;
+				$.getJSON('https://nominatim.openstreetmap.org/reverse', {
+    				lat: la,
+    				lon: lo,
+    				format: 'json',
+				}, function (result) {
+
+						var t = result.address.state;	
+					//console.log(t);
+						//var html = '<b>'+t+'</b><div><p id="crime">Crime rate: 53</p></div>'
+
+					//getCol(t);
+					if (window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
         } else {
-            	xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
         xmlhttp.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200) {
-                	var key=this.responseText;
-                	console.log(sel);
-                	document.getElementById(""+sel+"").value=key;	
-            }
+                var tex= this.responseText;
+                console.log(tex);
+                document.getElementById('crime').innerHTML="Crime Rate: "+tex;
+        	}
         };
-        xmlhttp.open("GET",sel+".php?q="+name,true);
-        xmlhttp.send();
-		}
+        xmlhttp.open("GET","crime.php?q="+t,true);
+        xmlhttp.send();	
+//starting ajax for second one
+
+if (window.XMLHttpRequest) {
+            xmlhtt = new XMLHttpRequest();
+        } else {
+            xmlhtt = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlhtt.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var tex= this.responseText;
+                //console.log(tex);
+                document.getElementById('sex').innerHTML="female per 100 males:  "+tex;
+        	}
+        };
+        xmlhtt.open("GET","sex.php?q="+t,true);
+        xmlhtt.send();
+//starting ajax for third one
+if (window.XMLHttpRequest) {
+            xmlht = new XMLHttpRequest();
+        } else {
+            xmlht = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+        xmlht.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var tex= this.responseText;
+                //console.log(tex);
+                document.getElementById('lit').innerHTML=tex;
+        	}
+        };
+        xmlht.open("GET","literacy.php?q="+t,true);
+        xmlht.send();
+    });
+
+}
+				
+		
+	function getCol(name)
+	{
+			
+}
 		function getStateColor(name){
+		getCol(name);
 			
-			
-					if(name>82658)
-						return 'red';
-					else if(name<82658)
-						return 'blue';
-					else
-						return 'green';
+
+			return 'green';
 		}
 		function stateStyle(feature)
 		{
+			//console.log(feature);
 			return{
 				fillColor:getStateColor(feature.properties.NAME_1),
 				weight:2,
