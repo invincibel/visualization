@@ -1,13 +1,5 @@
 function getState(la,lo)
-{$.getJSON('https://nominatim.openstreetmap.org/reverse', {
-    lat: la,
-    lon: lo,
-    format: 'json',
-}, function (result) {
-	console.log(result);
-    var t = JSON.parse(result);
-    console.log(t.address);
-});
+{
 }
 var layers;
 
@@ -43,16 +35,23 @@ var layers;
 				var chk = e.latlng.toString();
 				var pattern = /\d{2}.\d{4,}/;
 				var res = chk.split(",");
-				var lat = pattern.exec(res[0])[0];
-				var lon = pattern.exec(res[1])[0];
-				console.log(lat);
-				console.log(lon);
-				getState(lat,lon);
-
-				layer.bindPopup(
-				'<b>'+'state'+'</b><div>ratio:54</div>',
-				{minWidth : 256}
+				var la = pattern.exec(res[0])[0];
+				var lo = pattern.exec(res[1])[0];
+				//console.log(lat);
+				//console.log(lon);
+				//getState(lat,lon);
+				//console.log(t);
+				$.getJSON('https://nominatim.openstreetmap.org/reverse', {
+    				lat: la,
+    				lon: lo,
+    				format: 'json',
+				}, function (result) {
+						var t = result.address.state;	
+						layer.bindPopup(
+						'<b>'+t+'</b><div>ratio:54</div>',
+							{minWidth : 256}
 			);
+				});
 		    /* var point = [22.75, 78.25];
 			var myMarker = L.marker(point);
 			myMarker.addTo(map);
