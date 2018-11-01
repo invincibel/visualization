@@ -1,5 +1,14 @@
+function getState(l,lo){
+$.getJSON('https://nominatim.openstreetmap.org/reverse', {
+    lat: l,
+    lon: lo,
+    format: 'json',
+}, function (result) {
+    console.log(result);
+});
+}
 var layers;
-			
+
 			function highlightFeature(e){
 				var layer = e.target;
 				layer.setStyle(
@@ -10,8 +19,13 @@ var layers;
 						fillOpacity : 0.2
 					}
 				);
+				var chk = e.latlng.toString();
+				var pattern = /\d{2}.\d{4,}/;
+				var pt = /\s\d{2}.\d{4,}/;
+				var lon = pt.exec(chk)[0];
+				var lat = pattern.exec(chk)[0];
 				layer.bindPopup(
-				'<b>Indian State</b><div>ratio:54</div>',
+				'<b>'+getState(lat,lon)+'</b><div>ratio:54</div>',
 				{minWidth : 256}
 			);
 				if(!L.Browser.ie && !L.Browser.opera){
