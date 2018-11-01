@@ -1,10 +1,12 @@
-function getState(l,lo){
-$.getJSON('https://nominatim.openstreetmap.org/reverse', {
-    lat: l,
+function getState(la,lo)
+{$.getJSON('https://nominatim.openstreetmap.org/reverse', {
+    lat: la,
     lon: lo,
     format: 'json',
 }, function (result) {
-    console.log(result);
+	console.log(result);
+    var t = JSON.parse(result);
+    console.log(t.address);
 });
 }
 var layers;
@@ -19,15 +21,6 @@ var layers;
 						fillOpacity : 0.2
 					}
 				);
-				var chk = e.latlng.toString();
-				var pattern = /\d{2}.\d{4,}/;
-				var pt = /\s\d{2}.\d{4,}/;
-				var lon = pt.exec(chk)[0];
-				var lat = pattern.exec(chk)[0];
-				layer.bindPopup(
-				'<b>'+getState(lat,lon)+'</b><div>ratio:54</div>',
-				{minWidth : 256}
-			);
 				if(!L.Browser.ie && !L.Browser.opera){
 					layer.bringToFront();
 				}
@@ -38,6 +31,28 @@ var layers;
 			}
 			
 			function zoomToFeature(e){
+				var layer = e.target;
+				layer.setStyle(
+					{
+						weight : 5,
+						color : 'black',
+						fillColor : 'yellow',
+						fillOpacity : 0.2
+					}
+				);
+				var chk = e.latlng.toString();
+				var pattern = /\d{2}.\d{4,}/;
+				var res = chk.split(",");
+				var lat = pattern.exec(res[0])[0];
+				var lon = pattern.exec(res[1])[0];
+				console.log(lat);
+				console.log(lon);
+				getState(lat,lon);
+
+				layer.bindPopup(
+				'<b>'+'state'+'</b><div>ratio:54</div>',
+				{minWidth : 256}
+			);
 		    /* var point = [22.75, 78.25];
 			var myMarker = L.marker(point);
 			myMarker.addTo(map);
