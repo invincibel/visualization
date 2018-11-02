@@ -1,5 +1,5 @@
 var layers;
-var array = ["crime","sex","literacy"];
+var array = ["crime","","literacy"];
 			function highlightFeature(e){
 				var layer = e.target;
 				layer.setStyle(
@@ -53,75 +53,80 @@ var array = ["crime","sex","literacy"];
     				lon: lo,
     				format: 'json',
 				}, function (result) {
-
 						var t = result.address.state;	
-					//console.log(t);
-						//var html = '<b>'+t+'</b><div><p id="crime">Crime rate: 53</p></div>'
-
 					//getCol(t);
+					//sending request for crime
 					if (window.XMLHttpRequest) {
-            xmlhttp = new XMLHttpRequest();
-        } else {
-            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhttp.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var tex= this.responseText;
-                console.log(tex);
-                document.getElementById('crime').innerHTML="Crime Rate: "+tex;
-        	}
-        };
-        xmlhttp.open("GET","crime.php?q="+t,true);
-        xmlhttp.send();	
+           				 xmlhttp = new XMLHttpRequest();
+        			} else {
+            			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        			}
+        			xmlhttp.onreadystatechange = function() {
+            		if (this.readyState == 4 && this.status == 200) {
+                		var tex= this.responseText;
+               			//console.log(tex);
+                		document.getElementById('crime').innerHTML="Crime Rate: "+tex;
+        			}
+        			};
+        			xmlhttp.open("GET","crime.php?q="+t,true);
+        			xmlhttp.send();	
 //starting ajax for second one
 
-if (window.XMLHttpRequest) {
-            xmlhtt = new XMLHttpRequest();
-        } else {
-            xmlhtt = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlhtt.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var tex= this.responseText;
-                //console.log(tex);
-                document.getElementById('sex').innerHTML="female per 100 males:  "+tex;
-        	}
-        };
-        xmlhtt.open("GET","sex.php?q="+t,true);
-        xmlhtt.send();
+					if (window.XMLHttpRequest) {
+            			xmlhtt = new XMLHttpRequest();
+        			} else {
+           				xmlhtt = new ActiveXObject("Microsoft.XMLHTTP");
+        			}
+        			xmlhtt.onreadystatechange = function() {
+            		if (this.readyState == 4 && this.status == 200) {
+                		var tex= this.responseText;
+                		//console.log(tex);
+                		document.getElementById('sex').innerHTML="female per 1000 males:  "+tex;
+        			}
+        		};
+        			xmlhtt.open("GET","sex.php?q="+t,true);
+        			xmlhtt.send();
 //starting ajax for third one
-if (window.XMLHttpRequest) {
-            xmlht = new XMLHttpRequest();
-        } else {
-            xmlht = new ActiveXObject("Microsoft.XMLHTTP");
-        }
-        xmlht.onreadystatechange = function() {
-            if (this.readyState == 4 && this.status == 200) {
-                var tex= this.responseText;
-                //console.log(tex);
-                document.getElementById('lit').innerHTML=tex;
-        	}
-        };
-        xmlht.open("GET","literacy.php?q="+t,true);
-        xmlht.send();
-    });
+					if (window.XMLHttpRequest) {
+            			xmlht = new XMLHttpRequest();
+        			} else {
+            			xmlht = new ActiveXObject("Microsoft.XMLHTTP");
+        			}
+        			xmlht.onreadystatechange = function() {
+            		if (this.readyState == 4 && this.status == 200) {
+                		var tex= this.responseText;
+                		//console.log(tex);
+                		document.getElementById('lit').innerHTML=tex;
+        			}
+        		};
+        			xmlht.open("GET","literacy.php?q="+t,true);
+        			xmlht.send();
+    		});
 
 }
-				
-		
-	function getCol(name)
-	{
-			
-}
-		function getStateColor(name){
-		getCol(name);
-			
+		function getStateColor(nam){
+			var len = stateData.states.length;
+			for(var i=0;i<len;i++){
+				if(stateData.states[i].name==nam)
+				{
+					var p = stateData.states[i].population;
+					var poi = p.replace(",","")
+					var po = poi.replace(",","")
+					var pop = parseInt(po);
+					//console.log(po);
+					if(pop<10000000)
+					return '#00FF7F';
+				else if(pop<100000000)
+					return 'blue';
+				else 
+					return 'red';
+				}
 
-			return 'green';
+			}
+			return '#00FF7F';	
 		}
 		function stateStyle(feature)
 		{
-			//console.log(feature);
 			return{
 				fillColor:getStateColor(feature.properties.NAME_1),
 				weight:2,
@@ -154,3 +159,4 @@ var map = L.map('map').setView([28.535517,77.391029],5);
 		
 			setMap();
 			document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
+

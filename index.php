@@ -7,6 +7,7 @@
 	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
 <script src="data/data.geojson"></script>
+<script src="data/stateData.js"></script>
 <link rel="stylesheet" href="css/index.css"/>
 </head>
 <body>
