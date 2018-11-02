@@ -114,17 +114,21 @@ var array = ["crime","","literacy"];
 					var po = poi.replace(",","")
 					var pop = parseInt(po);
 					//console.log(po);
-					if(pop<10000000)
-					return '#00FF7F';
-				else if(pop<100000000)
-					return 'blue';
-				else 
-					return 'red';
+					return getCol(pop);
+					}
 				}
-
-			}
-			return '#00FF7F';	
+			return '#909090';	
 		}
+		function getCol(pop)
+		{
+			if(pop<10000000)
+					return '#909090';
+				else if(pop<100000000)
+					return '#505050';
+				else 
+					return '#282828';
+		}
+		
 		function stateStyle(feature)
 		{
 			return{
@@ -156,7 +160,24 @@ var map = L.map('map').setView([28.535517,77.391029],5);
 			}
 			).addTo(map);
 	}
-		
+		var legend = L.control({position : 'bottomright'});
+			legend.onAdd = function(map){
+				var div = L.DomUtil.create('div', 'legend');
+				var labels = [
+					"Population less than 10000000", 
+					"Population less than 100000000", 
+					"Population greater than 100000000"
+				];
+				var grades = [1000000, 100000000, 1000000000];
+				div.innerHTML = '<div><b>Legend</b></div>';
+				for(var i = 0; i < grades.length; i++){
+					div.innerHTML += '<i style="background:' 
+					+ getCol(grades[i]) + '">&nbsp;&nbsp;</i>&nbsp;&nbsp;'
+					+ labels[i] + '<br />';
+				}
+				return div;
+			}
+			legend.addTo(map);
 			setMap();
 			document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
 
