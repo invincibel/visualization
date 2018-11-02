@@ -1,12 +1,11 @@
 var layers;
-var array = ["crime","","literacy"];
 			function highlightFeature(e){
 				var layer = e.target;
 				layer.setStyle(
 					{
 						weight : 5,
 						color : 'black',
-						fillColor : 'yellow',
+						fillColor : 'silver',
 						fillOpacity : 0.2
 					}
 				);
@@ -28,15 +27,14 @@ var array = ["crime","","literacy"];
 						layer.bindPopup(
 						html,
 							{minWidth : 256}
-			
 			);
-
 				});
 			}
 			function resetHighlight(e){
 				layers.resetStyle(e.target);
 			}
-	function zoomToFeature(e){
+			function zoomToFeature(e){
+				var tex1,tex2,tex3;
 				var layer = e.target;
 				layer.setStyle(
 					{
@@ -54,8 +52,7 @@ var array = ["crime","","literacy"];
     				format: 'json',
 				}, function (result) {
 						var t = result.address.state;	
-					//getCol(t);
-					//sending request for crime
+			//sending request for crime
 					if (window.XMLHttpRequest) {
            				 xmlhttp = new XMLHttpRequest();
         			} else {
@@ -63,14 +60,14 @@ var array = ["crime","","literacy"];
         			}
         			xmlhttp.onreadystatechange = function() {
             		if (this.readyState == 4 && this.status == 200) {
-                		var tex= this.responseText;
-               			//console.log(tex);
-                		document.getElementById('crime').innerHTML="Crime Rate: "+tex;
-        			}
+                		tex3= this.responseText;
+               			//console.log(typeof(tex3));
+                		document.getElementById('crime').innerHTML="Crime Rate: "+tex3;
+                		makeGraph(t,tex3);        			}
         			};
         			xmlhttp.open("GET","crime.php?q="+t,true);
         			xmlhttp.send();	
-//starting ajax for second one
+			//starting ajax for second one
 
 					if (window.XMLHttpRequest) {
             			xmlhtt = new XMLHttpRequest();
@@ -79,14 +76,15 @@ var array = ["crime","","literacy"];
         			}
         			xmlhtt.onreadystatechange = function() {
             		if (this.readyState == 4 && this.status == 200) {
-                		var tex= this.responseText;
+                		 tex1= this.responseText;
                 		//console.log(tex);
-                		document.getElementById('sex').innerHTML="female per 1000 males:  "+tex;
+                		document.getElementById('sex').innerHTML="female per 1000 males:  "+tex1;
+                		makeSgraph(t,tex1);
         			}
         		};
         			xmlhtt.open("GET","sex.php?q="+t,true);
         			xmlhtt.send();
-//starting ajax for third one
+			//starting ajax for third one
 					if (window.XMLHttpRequest) {
             			xmlht = new XMLHttpRequest();
         			} else {
@@ -94,13 +92,17 @@ var array = ["crime","","literacy"];
         			}
         			xmlht.onreadystatechange = function() {
             		if (this.readyState == 4 && this.status == 200) {
-                		var tex= this.responseText;
+                		 tex2= this.responseText;
                 		//console.log(tex);
-                		document.getElementById('lit').innerHTML=tex;
+                		document.getElementById('lit').innerHTML=tex2;
+                		makeEgraph(t,tex2);
         			}
         		};
         			xmlht.open("GET","literacy.php?q="+t,true);
         			xmlht.send();
+        			//for making the graph function
+        			//console.log(tex1);
+        			//makeGraph(t);
     		});
 
 }
@@ -113,7 +115,6 @@ var array = ["crime","","literacy"];
 					var poi = p.replace(",","")
 					var po = poi.replace(",","")
 					var pop = parseInt(po);
-					//console.log(po);
 					return getCol(pop);
 					}
 				}
@@ -127,8 +128,7 @@ var array = ["crime","","literacy"];
 					return '#505050';
 				else 
 					return '#282828';
-		}
-		
+		}	
 		function stateStyle(feature)
 		{
 			return{
@@ -181,3 +181,66 @@ var map = L.map('map').setView([28.535517,77.391029],5);
 			setMap();
 			document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
 
+//making graph function goes from here
+function makeGraph(name,value)
+{
+	var val = parseInt(value);
+	var chart = new CanvasJS.Chart("chartContainer",{
+		title:{
+			text:"crime rate of "+name
+		},
+		data: [
+		{
+			type: "column",
+			dataPoints : [{ y: val, label: name }],
+		}]
+	});
+	chart.render();
+}
+function makeSgraph(name,value)
+{
+	var val = parseInt(value);
+	var fp=((val)/(1000+val))*100;
+	var bp=100.00-fp;
+	var chart = new CanvasJS.Chart("chartContainr", {
+	animationEnabled: true,
+	title: {
+		text: "Sex ratio of "+name
+	},
+	data: [{
+		type: "pie",
+		startAngle: 240,
+		yValueFormatString: "##0.00\"%\"",
+		indexLabel: "{label} {y}",
+		dataPoints: [
+			{y: fp, label: "female percentage"},
+			{y: bp, label: "male percentage"}
+		]
+	}]
+});
+chart.render();
+}
+function makeEgraph(name,value)
+{
+	var pre = value.split("Female");
+	var mlp = /\d{2}.\d{2}/;
+	var ml = mlp.exec(pre[0]);
+	var fl = mlp.exec(pre[1]);
+	console.log(typeof(ml[0]));
+	//console.log(fl[0]);
+	var chart = new CanvasJS.Chart("chartContain",{
+		title:{
+			text:"Education rate of men and women of "+name
+		},
+		data: [{
+			type: "column",
+			//yValueFormatString: "##0.00",
+			dataPoints : [
+						{y: parseFloat(ml[0]),label: "male literacy"},
+						{ y: parseFloat(fl[0]), label: "female literacy" }
+			]
+		}]
+	});
+	chart.render();
+
+}

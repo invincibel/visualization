@@ -1,3 +1,6 @@
+body{
+	width: 100%;
+}
 #map{
 	position: fixed;
 	height: 950px;
@@ -13,6 +16,6 @@
 }
 .custom-select {
   position: absolute;
- 	right:0px;
+ 	left: 0px;
   font-family: Arial;
 }
