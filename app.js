@@ -52,6 +52,11 @@ var layers;
     				format: 'json',
 				}, function (result) {
 						var t = result.address.state;	
+						console.log(t);
+						document.getElementById("form").style.visibility = 'visible';
+                			document.getElementById("state").value=t;
+                			document.getElementById("state").checked=true;
+                			document.getElementById("header").innerHTML=t;
 			//sending request for crime
 					if (window.XMLHttpRequest) {
            				 xmlhttp = new XMLHttpRequest();
@@ -62,8 +67,10 @@ var layers;
             		if (this.readyState == 4 && this.status == 200) {
                 		tex3= this.responseText;
                			//console.log(typeof(tex3));
+
                 		document.getElementById('crime').innerHTML="Crime Rate: "+tex3;
-                		makeGraph(t,tex3);        			}
+                		makeGraph(t,tex3);        
+                					}
         			};
         			xmlhttp.open("GET","crime.php?q="+t,true);
         			xmlhttp.send();	
@@ -104,7 +111,7 @@ var layers;
         			//console.log(tex1);
         			//makeGraph(t);
     		});
-
+//stateMap();
 }
 		function getStateColor(nam){
 			var len = stateData.states.length;
@@ -181,7 +188,7 @@ var map = L.map('map').setView([28.535517,77.391029],5);
 			setMap();
 			document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
 
-//making graph function goes from here
+//making graph function goes from here of state wise
 function makeGraph(name,value)
 {
 	var val = parseInt(value);
@@ -226,7 +233,7 @@ function makeEgraph(name,value)
 	var mlp = /\d{2}.\d{2}/;
 	var ml = mlp.exec(pre[0]);
 	var fl = mlp.exec(pre[1]);
-	console.log(typeof(ml[0]));
+	//console.log(typeof(ml[0]));
 	//console.log(fl[0]);
 	var chart = new CanvasJS.Chart("chartContain",{
 		title:{
@@ -242,5 +249,5 @@ function makeEgraph(name,value)
 		}]
 	});
 	chart.render();
-
 }
+//state wise data of the cde goes from here

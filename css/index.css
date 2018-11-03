@@ -2,7 +2,7 @@ body{
 	width: 100%;
 }
 #map{
-	position: fixed;
+	position: absolute;
 	height: 950px;
 	width: 900px;
 	left: -200px;
@@ -19,3 +19,19 @@ body{
  	left: 0px;
   font-family: Arial;
 }
+[contentEditable=true]:empty:not(:focus):before{
+        content:attr(data-text)
+    }
+    #shortmap
+    {
+    	position: absolute;
+    	top:950px;
+    	left: 30px;
+    	height: 400px;
+    }
+    #form{
+    	visibility: hidden;	
+    	z-index: 1;
+    	position: absolute;
+    	left: 750px;
+    }
