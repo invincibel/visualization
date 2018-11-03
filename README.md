@@ -6,3 +6,4 @@ it is made to visualize the data of crimes,sex ,literacy of india
   * xampp server
   * php
   * css
+  * chart js
