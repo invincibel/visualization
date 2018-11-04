@@ -3,9 +3,6 @@
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
-		<title>
-			My Map
-		</title>
 		<!-- Leaflet -->
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"></script>
@@ -14,15 +11,22 @@
 			#map { height : 400px; }
 			.legend { background : white; line-height : 1.5em}
 			.legend i { width : 5em; float : left }
+			.leaflet-container{
+    background-color:rgba(255,0,0,0.0);
+}
+.leaflet-control-zoom{
+	display: none;
+}
 		</style>
 	</head>
 	<body>
-		<h1>My Map</h1>
+
 		<div id="map"></div>
 		<script>
 			var countriesLayer;
 			
 			function highlightFeature(e){
+				//console.log(e);
 				var layer = e.target;
 				layer.setStyle(
 					{
@@ -42,6 +46,7 @@
 			}
 			
 			function zoomToFeature(e){
+				//console.log(e);
 				map.fitBounds(e.target.getBounds());
 			}
 			
@@ -66,6 +71,7 @@
 			}
 			
 			function countriesStyle(feature){
+				console.log(feature);
 				return {
 					fillColor : getCountryColor(feature.properties.pop_est),
 					weight : 2,
@@ -76,7 +82,7 @@
 				}
 			}
 			
-			var map = L.map('map').setView([43.8476, 18.3564], 6);
+			var map = L.map('map').setView([43.8476, 18.3564], 5);
 			countriesLayer = L.geoJson(
 				countries,
 				{
@@ -104,6 +110,8 @@
 				return div;
 			}
 			legend.addTo(map);
+						document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
+
 		</script>
 	</body>
 </html>
