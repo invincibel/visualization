@@ -349,8 +349,8 @@ var disData = {
 		{
 			"name": "Mahoba",
 			"population": 875958
-		},
+		}
 
 
 	]
-}
+};

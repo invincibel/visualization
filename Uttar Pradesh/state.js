@@ -28,13 +28,36 @@ var countriesLayer;
     				lon: lo,
     				format: 'json',
 				}, function (result) {
-						console.log(result);
+						//console.log(result);
 						var t = result.address.state_district;	
-						var html = '<b>'+t+'</b><div><p id="crime"></p><p id="sex"></p><p id="lit"></p></div>'
+						var len = disData.district.length;
+				//console.log(len);
+			for(var i=0;i<len;i++){
+				if(disData.district[i].name==t)
+				{
+					var p = disData.district[i].population;
+				}
+			}
+						var html = '<b>'+t+'</b><div><p id="population">Population: '+p+'</p><p id="crime"></p><p id="lit"></p></div>'
 						layer.bindPopup(
 						html,
 							{minWidth : 256}
 			);
+						if (window.XMLHttpRequest) {
+           				 xmlhttp = new XMLHttpRequest();
+        			} else {
+            			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        			}
+        			xmlhttp.onreadystatechange = function() {
+            		if (this.readyState == 4 && this.status == 200) {
+                		var	tex3= this.responseText;
+               			//console.log(typeof(tex3));
+               			console.log(tex3);
+                		document.getElementById('crime').innerHTML="Crime Rate: "+tex3;
+                					}
+        			};
+        			xmlhttp.open("GET","main.php?q=Uttar Pradesh",true);
+        			xmlhttp.send();	
 				});
 			}
 			
@@ -57,17 +80,32 @@ var countriesLayer;
 				);
 			}
 			
-			function getCountryColor(popEst){
-				//console.log(popEst);
-				if(popEst > 100000000){
-					return 'red';
-				}else if(popEst > 50000000){
-					return 'blue';
-				}else{
-					return 'green';
+			function getCountryColor(nam){
+				var len = disData.district.length;
+				//console.log(len);
+			for(var i=0;i<len;i++){
+				if(disData.district[i].name==nam)
+				{
+					var p = disData.district[i].population;
+					//console.log(p);
+					//var poi = p.replace(",","")
+					//var po = poi.replace(",","")
+					//var pop = parseInt(po);
+					return getCol(p);
+					}
 				}
+			return '#909090';	
+				
 			}
-			
+			function getCol(pop)
+		{
+			if(pop<10000)
+					return '#909090';
+				else if(pop<3210140.91549)
+					return '#505050';
+				else 
+					return '#282828';
+		}
 			function countriesStyle(feature){
 				//console.log(feature);
 				return {
@@ -94,18 +132,18 @@ var countriesLayer;
 			legend.onAdd = function(map){
 				var div = L.DomUtil.create('div', 'legend');
 				var labels = [
-					"Population greater than 100000000", 
-					"Population greater than 50000000", 
-					"Population equal or less than 50000000"
+					"Population greater than 10000", 
+					"Population greater than 10000 and less than 3210140", 
+					"Population greater than 3210140"
 				];
-				var grades = [100000001, 50000001, 50000000];
+				var grades = [1000, 100000, 50000000];
 				div.innerHTML = '<div><b>Legend</b></div>';
 				for(var i = 0; i < grades.length; i++){
 					div.innerHTML += '<i style="background:' 
-					+ getCountryColor(grades[i]) + '">&nbsp;&nbsp;</i>&nbsp;&nbsp;'
+					+ getCol(grades[i]) + '">&nbsp;&nbsp;</i>&nbsp;&nbsp;'
 					+ labels[i] + '<br />';
 				}
 				return div;
 			}
 			legend.addTo(map);
-						document.getElementsByClassName( 'leaflet-control-attribution' )[0].style.display = 'none';
+			//code of ajax
