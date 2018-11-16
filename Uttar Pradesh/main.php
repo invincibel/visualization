@@ -23,12 +23,14 @@ foreach($col as $j)
 $sy= $den2/(4-1);
 $sx=$den1/(4-1);
 $dem = pow(($den1*$den2),0.5);
+$r=1;
+if($dem!=0)
 $r = $num/$dem;
 $sy=pow($sy,0.5);
 $sx=pow($sx,0.5);
 $b=$r*($sy/$sx);
 $a = $ym-$b*$xm;
 $pre = $a+$b*5;
-echo "past year crimes are ".$y['one']." ".$y['two']." ".$y['three']." ".$y['four']."<br/>";
+echo "past year crimes are <br>".$y['one']." ".$y['two']." ".$y['three']." ".$y['four']."<br/>";
 echo "next year predicted crime ".$pre;
 ?>

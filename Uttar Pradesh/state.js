@@ -43,6 +43,28 @@ var countriesLayer;
 						html,
 							{minWidth : 256}
 			);
+						
+				});
+			}
+			
+			function resetHighlight(e){
+				countriesLayer.resetStyle(e.target);
+			}
+			
+			function zoomToFeature(e){
+				var chk = e.latlng.toString();
+
+				var pattern = /\d{2}.\d{4,}/;
+				var res = chk.split(",");
+				var la = pattern.exec(res[0])[0];
+				var lo = pattern.exec(res[1])[0];
+				$.getJSON('https://nominatim.openstreetmap.org/reverse', {
+    				lat: la,
+    				lon: lo,
+    				format: 'json',
+				}, function (result) {
+						//console.log(result);
+						var t = result.address.state_district;	
 						if (window.XMLHttpRequest) {
            				 xmlhttp = new XMLHttpRequest();
         			} else {
@@ -56,18 +78,9 @@ var countriesLayer;
                 		document.getElementById('crime').innerHTML="Crime Rate: "+tex3;
                 					}
         			};
-        			xmlhttp.open("GET","main.php?q=Uttar Pradesh",true);
+        			xmlhttp.open("GET","main.php?q="+t,true);
         			xmlhttp.send();	
 				});
-			}
-			
-			function resetHighlight(e){
-				countriesLayer.resetStyle(e.target);
-			}
-			
-			function zoomToFeature(e){
-				//console.log(e);
-				//map.fitBounds(e.target.getBounds());
 			}
 			
 			function countriesOnEachFeature(feature, layer){
