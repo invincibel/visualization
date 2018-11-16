@@ -1,6 +1,6 @@
 # Visualization
 
-In this project description of every state is given like its sex ratio, literacy rate and crime rate of each state. And description of state os Uttar Pradesh district wise.
+In this project description of every state is given like its sex ratio, literacy rate and crime rate of each state. And description of state os Uttar Pradesh district wise. Machine learning is also used in predicting data of the coming year using the current data.
 
 ## Pre-requisites
 
