@@ -168,9 +168,10 @@ function makeGraph(name,text)
 	var x1=parseInt(c[1]);
 	var x2 = parseInt(c[2]);
 	var x3 = parseInt(c[3]);
+	var x5 = parseInt(c[4]);
 	var x4 = parseInt(c[6]);
-	
-var y1=1,y2=2,y3=3,y4=4;
+	console.log(c);
+var y1=1,y2=2,y3=3,y4=5;y5=4;
  var chart = new CanvasJS.Chart("chartContainr",{
       title:{
       text: "crime graph of "+name
@@ -183,6 +184,7 @@ var y1=1,y2=2,y3=3,y4=4;
        	{x: y1,y: x1},
 		{x: y2,y: x2},
 		{x: y3,y: x3},
+		{x: y5,y: x5},
 		{x: y4,y: x4,indexLabel: "predicted value",markerColor: "red", markerType: "triangle"}
         ]
       }
@@ -212,9 +214,9 @@ function makeSGraph(name,text){
 	var x1=parseInt(c[1]);
 	var x2 = parseInt(c[2]);
 	var x3 = parseInt(c[3]);
-	var x4 = parseInt(c[6]);
-	
-var y1=1,y2=2,y3=3,y4=4;
+	var x5 = parseInt(c[4]);
+	var x4 = parseInt(c[6]);	
+var y1=1,y2=2,y3=3,y4=5,y5=4;
  var chart = new CanvasJS.Chart("chartContainer",{
       title:{
       text: "crime graph of "+name
@@ -227,6 +229,7 @@ var y1=1,y2=2,y3=3,y4=4;
        	{x: y1,y: x1},
 		{x: y2,y: x2},
 		{x: y3,y: x3},
+				{x: y5,y: x5},
 		{x: y4,y: x4,indexLabel: "predicted value",markerColor: "red", markerType: "triangle"}
         ]
       }
