@@ -14,4 +14,4 @@ In this project description of every state is given like its sex ratio, literacy
 ## Authors
 * Hritik Aggarwal
 
-
+Images/WhatsApp Image 2018-11-17 at 00.20.24.jpeg
