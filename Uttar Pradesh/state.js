@@ -74,9 +74,10 @@ var countriesLayer;
             		if (this.readyState == 4 && this.status == 200) {
                 		var	tex3= this.responseText;
                			//console.log(typeof(tex3));
-               			console.log(tex3);
+               			//console.log(tex3);
                 		document.getElementById('crime').innerHTML="Crime Rate: "+tex3;
-                					}
+                		makeGraph(t,tex3);
+                		}
         			};
         			xmlhttp.open("GET","main.php?q="+t,true);
         			xmlhttp.send();	
@@ -131,7 +132,7 @@ var countriesLayer;
 				}
 			}
 			
-			var map = L.map('map').setView([43.8476, 18.3564], 5);
+			var map = L.map('map').setView([22.72, 72.7721], 17);
 			countriesLayer = L.geoJson(
 				countries,
 				{
@@ -160,3 +161,77 @@ var countriesLayer;
 			}
 			legend.addTo(map);
 			//code of ajax
+//graph code begin here
+function makeGraph(name,text)
+{
+	var c = text.split(",");
+	var x1=parseInt(c[1]);
+	var x2 = parseInt(c[2]);
+	var x3 = parseInt(c[3]);
+	var x4 = parseInt(c[6]);
+	
+var y1=1,y2=2,y3=3,y4=4;
+ var chart = new CanvasJS.Chart("chartContainr",{
+      title:{
+      text: "crime graph of "+name
+      },
+       data: [
+      {
+        type: "line",
+
+        dataPoints: [
+       	{x: y1,y: x1},
+		{x: y2,y: x2},
+		{x: y3,y: x3},
+		{x: y4,y: x4,indexLabel: "predicted value",markerColor: "red", markerType: "triangle"}
+        ]
+      }
+      ]
+    });
+
+    chart.render();
+}
+
+if (window.XMLHttpRequest) {
+           				 xmlhttp = new XMLHttpRequest();
+        			} else {
+            			xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        			}
+        			xmlhttp.onreadystatechange = function() {
+            		if (this.readyState == 4 && this.status == 200) {
+                		var	tex3= this.responseText;
+               			//console.log(typeof(tex3));
+               			//console.log(tex3);
+                		makeSGraph("Uttar Pradesh",tex3);
+                		}
+        			};
+        			xmlhttp.open("GET","main.php?q=Uttar Pradesh",true);
+        			xmlhttp.send();	
+function makeSGraph(name,text){
+	var c = text.split(",");
+	var x1=parseInt(c[1]);
+	var x2 = parseInt(c[2]);
+	var x3 = parseInt(c[3]);
+	var x4 = parseInt(c[6]);
+	
+var y1=1,y2=2,y3=3,y4=4;
+ var chart = new CanvasJS.Chart("chartContainer",{
+      title:{
+      text: "crime graph of "+name
+      },
+       data: [
+      {
+        type: "line",
+
+        dataPoints: [
+       	{x: y1,y: x1},
+		{x: y2,y: x2},
+		{x: y3,y: x3},
+		{x: y4,y: x4,indexLabel: "predicted value",markerColor: "red", markerType: "triangle"}
+        ]
+      }
+      ]
+    });
+
+    chart.render();
+}
