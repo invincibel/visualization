@@ -14,9 +14,6 @@ In this project description of every state is given like its sex ratio, literacy
 
 ## Authors
 * Hritik Aggarwal
-* Ankit Kumar
-* Raghav Jindal
-* Sarthak Aggarwal
 ![image1](https://github.com/jindalraghav98/visualization/blob/master/Images/WhatsApp%20Image%202018-11-17%20at%2000.20.24.jpeg?raw=true)
 ![image2](https://github.com/jindalraghav98/visualization/blob/master/Images/WhatsApp%20Image%202018-11-17%20at%2000.20.25.jpeg?raw=true)
 ![image3](https://github.com/jindalraghav98/visualization/blob/master/Images/WhatsApp%20Image%202018-11-17%20at%2000.20.26.jpeg?raw=true)
